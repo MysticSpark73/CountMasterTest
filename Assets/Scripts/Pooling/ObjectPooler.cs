@@ -25,7 +25,7 @@ namespace CountMasters.Pooling
             }
             var obj = _objectPools[key].Dequeue();
             obj.SetPosition(position, container);
-            obj.OnSpawnedFromPooled();
+            obj.OnSpawnedFromPool();
             return obj;
         }
 

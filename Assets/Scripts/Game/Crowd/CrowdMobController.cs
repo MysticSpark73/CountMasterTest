@@ -7,17 +7,25 @@ namespace CountMasters.Game.Crowd
 {
     public class CrowdMobController : IInitable
     {
+        public int MobsCount => _mobs.Count;
+        
         private List<Mob.Mob> _mobs;
         private Transform _selfTransform;
         private CrowdType _crowdType;
+        private Crowd _crowd;
 
         private readonly float _distance = .15f;
         private readonly float _radius = .5f;
 
 
-        public CrowdMobController(Transform transform)
+        public CrowdMobController(Crowd crowd)
         {
-            _selfTransform = transform;
+            _crowd = crowd;
+        }
+        
+        public void Init()
+        {
+            _mobs = new List<Mob.Mob>();
         }
 
         public void SetType(CrowdType crowdType) => _crowdType = crowdType;
@@ -29,12 +37,18 @@ namespace CountMasters.Game.Crowd
             mob.SetActive(true);
             _mobs.Add(mob);
             FormatMobs();
-            
-            
-            
-            /*mob.SetPosition(new Vector3(Mathf.Sin(_mobs.Count) * .05f * _mobs.Count,
-                mob.transform.position.y,
-                Mathf.Cos(_mobs.Count) * .05f * _mobs.Count));*/
+        }
+
+        public void AddMob(Mob.Mob[] mobs)
+        {
+            if (mobs == null || mobs.Length == 0) return;
+            for (int i = 0; i < mobs.Length; i++)
+            {
+                mobs[i].SetCrowdType(_crowdType);
+                mobs[i].SetActive(true);
+                _mobs.Add(mobs[i]);
+            }
+            FormatMobs();
         }
 
         public void RemoveMob(Mob.Mob mob)
@@ -42,6 +56,26 @@ namespace CountMasters.Game.Crowd
             if (_mobs == null) return;
             _mobs.Remove(mob);
         }
+        
+        public void KillMob()
+        {
+            if (_mobs == null || _mobs.Count == 0) return;
+            var mob = _mobs[^1];
+            RemoveMob(mob);
+            mob.Kill();
+        }
+
+        public void CheckDistance(Vector3 target)
+        {
+            var mobsOutOfBounds = _mobs.FindAll(m => m.IsBeyondMaxDistance(target));
+            foreach (var mob in mobsOutOfBounds)
+            {
+                RemoveMob(mob);
+                mob.Kill();
+            }
+        }
+
+        public void OnMobFall(Mob.Mob mob) => mob.Fall();
 
         private void FormatMobs()
         {
@@ -53,11 +87,6 @@ namespace CountMasters.Game.Crowd
                     _distance * Mathf.Sqrt(i) * Mathf.Sin(i * _radius));
                 _mobs[i].transform.DOLocalMove(newPos, .5f);
             }
-        }
-
-        public void Init()
-        {
-            _mobs = new List<Mob.Mob>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CountMasters.Pooling
     {
         ObjectPool pooledKey { get; set; }
         
-        void OnSpawnedFromPooled();
+        void OnSpawnedFromPool();
 
         void OnReturnToPool();
 

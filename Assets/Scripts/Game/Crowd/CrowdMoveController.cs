@@ -7,7 +7,7 @@ namespace CountMasters.Game.Crowd
     public class CrowdMoveController : IInitable
     {
         public bool IsMoving => isMoving;
-        
+
         //TODO: Add CameraFollow script
         //TODO: probably move to LevelController or elsewhere
         private readonly float _levelBoundaries = 3.5f;
@@ -20,11 +20,8 @@ namespace CountMasters.Game.Crowd
         {
             _selfTransform = transform;
         }
-        
-        public void Init()
-        {
-            
-        }
+
+        public void Init() { }
 
         public void SetMoving(bool value) => isMoving = value;
 
