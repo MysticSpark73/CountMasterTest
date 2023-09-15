@@ -20,7 +20,6 @@ namespace CountMasters.Input
 
 #elif UNITY_ANDROID
 
-            //TODO: move this down
             _isTouchDown = UnityEngine.Input.touchCount > 0;
             if (_isTouchDown) _cursorPos = UnityEngine.Input.GetTouch(0).position;
 

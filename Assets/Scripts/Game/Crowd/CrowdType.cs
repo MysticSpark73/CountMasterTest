@@ -1,4 +1,4 @@
-﻿namespace CountMasters.Game
+﻿namespace CountMasters.Game.Crowd
 {
     public enum CrowdType : byte
     {
