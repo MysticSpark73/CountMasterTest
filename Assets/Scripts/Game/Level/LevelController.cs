@@ -13,7 +13,7 @@ namespace CountMasters.Game.Level
         {
             _pooler.Init();
             _crowd.Init();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var mob = _pooler.SpawnFromPool(ObjectPool.Mob, Vector3.zero, _crowd.GetMobsContainer()) as Mob;
                 if (mob != null)
@@ -21,7 +21,7 @@ namespace CountMasters.Game.Level
                     _crowd.AddMob(mob);
                 }
             }
-            GameStateManager.SetGameState(GameState.Playing);
+            //GameStateManager.SetGameState(GameState.Playing);
         }
     }
 }

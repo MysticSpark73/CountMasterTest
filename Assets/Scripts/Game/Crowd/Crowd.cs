@@ -19,7 +19,13 @@ namespace CountMasters.Game.Crowd
             _mobController.SetType(_crowdType);
             _crowdMoveController.Init();
             _mobController.Init();
-            if (_crowdType == CrowdType.Player) InputEvents.CursorMoved += OnCursorMoved;
+            SubscribeToPlayerEvents();
+        }
+
+        private void Update()
+        {
+            if (!_crowdMoveController.IsMoving) return;
+            _crowdMoveController.Move();
         }
 
         public void AddMob(Mob.Mob mob) => _mobController.AddMob(mob);
@@ -28,12 +34,39 @@ namespace CountMasters.Game.Crowd
 
         private void OnApplicationQuit()
         {
-            if (_crowdType == CrowdType.Player) InputEvents.CursorMoved -= OnCursorMoved;
+            UnsubscribeFromPlayerEvents();
+        }
+
+        private void SubscribeToPlayerEvents()
+        {
+            if (_crowdType != CrowdType.Player) return;
+            InputEvents.CursorMoved += OnCursorMoved;
+            GameStateEvents.GameStateChanged += OnGameStateChanged;
+        }
+
+        private void UnsubscribeFromPlayerEvents()
+        {
+            if (_crowdType != CrowdType.Player) return;
+            InputEvents.CursorMoved -= OnCursorMoved;
+            GameStateEvents.GameStateChanged -= OnGameStateChanged;
         }
 
         private void OnCursorMoved(bool isTouchDown, Vector2 cursorPos)
         {
             _crowdMoveController.CursorMoved(isTouchDown, cursorPos);
+        }
+
+        private void OnGameStateChanged(GameState state)
+        {
+            switch (state)
+            {
+                case GameState.Playing:
+                    _crowdMoveController.SetMoving(true);
+                    break;
+                default:
+                    _crowdMoveController.SetMoving(false);
+                    break;
+            }
         }
     }
 }

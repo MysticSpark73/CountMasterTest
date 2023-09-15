@@ -38,8 +38,10 @@ namespace CountMasters.Pooling
                 Debug.LogError($"Dictionary does not contain key '{key}!'");
                 return;
             }
-            obj.SetPosition(transform.position, _objectsToPool.FirstOrDefault(o => o.key == obj.pooledKey).container);
             _objectPools[key].Enqueue(obj);
+            var containerTransform = _objectsToPool.FirstOrDefault(o => o.key == obj.pooledKey).container;
+            if (containerTransform == null) return;
+            obj.SetPosition(containerTransform.position, containerTransform);
         }
 
         private void GeneratePools()

@@ -18,6 +18,8 @@ namespace CountMasters.Game.Crowd.Mob
             SetColor();
         }
 
+        public CrowdType GetCrowdType() => _crowdType;
+
         private void SetColor()
         {
             var color = _renderer.materials[0].color = Parameters.GetColorByCrowdType(_crowdType);

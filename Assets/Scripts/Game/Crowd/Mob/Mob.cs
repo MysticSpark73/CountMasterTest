@@ -6,6 +6,7 @@ namespace CountMasters.Game.Crowd.Mob
     public class Mob : MonoBehaviour, IPoollable
     {
         public ObjectPool pooledKey { get; set; }
+        public CrowdType CrowdType => _rendererController.GetCrowdType();
         
         [SerializeField] private Animator _animator;
         [SerializeField] private Renderer _renderer;
@@ -17,17 +18,16 @@ namespace CountMasters.Game.Crowd.Mob
         {
             _mobAnimator = new MobAnimator(_animator);
             _rendererController = new MobRendererController(_renderer);
-            GameStateEvents.GameStateChanged += OnGameStateChanged;
         }
         
         public void OnSpawnedFromPooled()
         {
-            
+            GameStateEvents.GameStateChanged += OnGameStateChanged;
         }
 
         public void OnReturnToPool()
         {
-            
+            GameStateEvents.GameStateChanged -= OnGameStateChanged;
         }
 
         public void SetPosition(Vector3 pos, Transform container = null)
@@ -52,8 +52,9 @@ namespace CountMasters.Game.Crowd.Mob
 
         private void OnGameStateChanged(GameState state)
         {
-            _mobAnimator.SetAnimation(
-                state == GameState.Playing ? MobAnimator.MobAnimation.Run : MobAnimator.MobAnimation.Idle);
+            _mobAnimator.SetAnimation(state == GameState.Playing && CrowdType == CrowdType.Player
+                ? MobAnimator.MobAnimation.Run
+                : MobAnimator.MobAnimation.Idle);
         }
     }
 }
