@@ -42,6 +42,7 @@ namespace CountMasters.Game.Crowd.Mob
         public void SetActive(bool value)
         {
             gameObject.SetActive(value);
+            _mobAnimator.SetActive(value);
         }
 
         public void SetCrowdType(CrowdType crowdType)

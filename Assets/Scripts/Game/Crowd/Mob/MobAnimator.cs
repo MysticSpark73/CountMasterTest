@@ -13,6 +13,8 @@ namespace CountMasters.Game.Crowd.Mob
             _animator = animator;
         }
 
+        public void SetActive(bool value) => _animator.enabled = value;
+
         public void SetAnimation(MobAnimation mobAnimation)
         {
             switch (mobAnimation)
