@@ -3,12 +3,14 @@ using CountMasters.Game.Crowd;
 using CountMasters.Game.Crowd.Mob;
 using CountMasters.Game.Level.Obstacles;
 using CountMasters.Pooling;
+using CountMasters.UI.Dialogs;
 using UnityEngine;
 
 namespace CountMasters.Game.Level
 {
     public class LevelController : MonoBehaviour
     {
+        [SerializeField] private DialogsManager _dialogsManager;
         [SerializeField] private ObjectPooler _pooler;
         [SerializeField] private Crowd.Crowd _crowd;
         [SerializeField] private Transform _levelContainer;
@@ -33,12 +35,20 @@ namespace CountMasters.Game.Level
             LevelEvents.MobDied += OnMobDied;
             LevelEvents.LevelFinish += OnLevelFinish;
             LevelEvents.CrowdKilled += OnCrowdKilled;
+            LevelEvents.NextLevelRequested += OnNextLevelRequested;
+            LevelEvents.RestartRequested += OnRestartRequested;
 
             _currentLevel = await _loadManager.LoadCurrentLevel(_levelContainer);
             _currentLevel.Init(_pooler);
             _currentLevel.SetLevelColor(Parameters.GetRandomLevelColor());
             _crowd.SetPosition(_currentLevel.GetCrowdSpawnPoint());
+            FillCrowd();
             
+            _dialogsManager.ShowDialog<LevelUI>();
+        }
+
+        private void FillCrowd()
+        {
             Mob[] mobs = new Mob[_crowd.InitialMobs];
             for (int i = 0; i < _crowd.InitialMobs; i++)
             {
@@ -49,7 +59,6 @@ namespace CountMasters.Game.Level
                 }
             }
             _crowd.AddMob(mobs);
-            GameStateManager.SetGameState(GameState.Playing);
         }
 
         private void OnApplicationQuit()
@@ -59,6 +68,8 @@ namespace CountMasters.Game.Level
             LevelEvents.MobDied -= OnMobDied;
             LevelEvents.LevelFinish -= OnLevelFinish;
             LevelEvents.CrowdKilled -= OnCrowdKilled;
+            LevelEvents.NextLevelRequested -= OnNextLevelRequested;
+            LevelEvents.RestartRequested -= OnRestartRequested;
         }
 
         #region Operations
@@ -151,6 +162,8 @@ namespace CountMasters.Game.Level
         private void OnLevelFinish()
         {
             GameStateManager.SetGameState(GameState.Win);
+            Parameters.AddCoins(100);
+            _dialogsManager.ShowDialog<WinDialog>();
         }
 
         private void OnCrowdKilled(CrowdType crowdType)
@@ -158,7 +171,33 @@ namespace CountMasters.Game.Level
             if (crowdType == CrowdType.PlayerCrowd)
             {
                 GameStateManager.SetGameState(GameState.Lose);
+                _dialogsManager.ShowDialog<LoseDialog>();
             }
+        }
+
+        private async void OnNextLevelRequested()
+        {
+            _currentLevel.Destroy();
+            _currentLevel = await _loadManager.LoadNextLevel(_levelContainer);
+            _currentLevel.Init(_pooler);
+            _currentLevel.SetLevelColor(Parameters.GetRandomLevelColor());
+            _crowd.SetPosition(_currentLevel.GetCrowdSpawnPoint());
+            FillCrowd();
+            var dialog = _dialogsManager.GetDialog<LevelUI>();
+            if (dialog == null) return;
+            dialog.ShowTapToContinue();
+        }
+
+        private void OnRestartRequested()
+        {
+            _currentLevel.Reset();
+            _crowd.SetPosition(_currentLevel.GetCrowdSpawnPoint());
+            _crowd.Kill(true);
+            FillCrowd();
+            _crowd.Reset();
+            var dialog = _dialogsManager.GetDialog<LevelUI>();
+            if (dialog == null) return;
+            dialog.ShowTapToContinue();
         }
     }
 }

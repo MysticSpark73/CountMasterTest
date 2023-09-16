@@ -12,5 +12,7 @@ namespace CountMasters.Game.Level
         public static Action<Mob> MobDied;
         public static Action LevelFinish;
         public static Action<CrowdType> CrowdKilled;
+        public static Action NextLevelRequested;
+        public static Action RestartRequested;
     }
 }

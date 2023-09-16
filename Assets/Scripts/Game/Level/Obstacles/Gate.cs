@@ -26,7 +26,6 @@ namespace CountMasters.Game.Level.Obstacles
         {
             _collider.enabled = true;
             SetText();
-            SetColor(Color.white);
         }
 
         public void SetColor(Color color)

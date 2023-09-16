@@ -1,5 +1,7 @@
-﻿using CountMasters.Game.Crowd;
+﻿using System;
+using CountMasters.Game.Crowd;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CountMasters.Game
 {
@@ -40,6 +42,21 @@ namespace CountMasters.Game
             CrowdType.EnemyCrowd => color_enemy,
             _ => Color.clear
         };
+
+        #endregion
+        #region Coins
+
+        public static int COINS => coins;
+
+        private static int coins = 0;
+
+        public static void AddCoins(int amount)
+        {
+            coins += amount;
+            CoinsAmountChanged?.Invoke(coins);
+        }
+
+        public static Action<int> CoinsAmountChanged;
 
         #endregion
     }

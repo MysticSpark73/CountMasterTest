@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using CountMasters.Core;
 using CountMasters.Game.Crowd.Mob;
 using CountMasters.Game.Level.Obstacles;
@@ -25,26 +26,22 @@ namespace CountMasters.Game.Level
             _pits.ForEach(p => p.Init());
             _crowds.ForEach(c => c.Init());
             if (_pooler == null) return;
-            foreach (var crowd in _crowds)
-            {
-                Mob[] mobsToAdd = new Mob[crowd.InitialMobs];
-                for (int i = 0; i < crowd.InitialMobs; i++)
-                {
-                    var mob = _pooler.SpawnFromPool(ObjectPool.Mob, crowd.GetSpawnPoint(),
-                        crowd.GetMobsContainer()) as Mob;
-                    if (mob != null)
-                    {
-                        mobsToAdd[i] = mob;
-                    }
-                }
-                crowd.AddMob(mobsToAdd);
-            }
+            FillCrowds();
         }
-        
+
+        public void Destroy()
+        {
+            _crowds.ForEach(c => c.Kill());
+            Destroy(gameObject);
+        }
+
         public void Reset()
         {
             _gates.ForEach(g => g.Reset());
             _pits.ForEach(p => p.Reset());
+            _crowds.ForEach(c => c.Kill(true));
+            FillCrowds();
+            _crowds.ForEach(c => c.Reset());
         }
 
         public bool TryRemoveMob(Mob mob)
@@ -68,6 +65,24 @@ namespace CountMasters.Game.Level
         public void SetLevelColor(Color color)
         {
             _gates.ForEach(g => g.SetColor(new Color(color.r, color.g, color.b, .5f)));
+        }
+        
+        private void FillCrowds()
+        {
+            foreach (var crowd in _crowds)
+            {
+                Mob[] mobsToAdd = new Mob[crowd.InitialMobs];
+                for (int i = 0; i < crowd.InitialMobs; i++)
+                {
+                    var mob = _pooler.SpawnFromPool(ObjectPool.Mob, crowd.GetSpawnPoint(),
+                        crowd.GetMobsContainer()) as Mob;
+                    if (mob != null)
+                    {
+                        mobsToAdd[i] = mob;
+                    }
+                }
+                crowd.AddMob(mobsToAdd);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CountMasters.Core;
+﻿using System;
+using CountMasters.Core;
 using CountMasters.Game.Level;
 using CountMasters.Input;
 using TMPro;
@@ -65,10 +66,22 @@ namespace CountMasters.Game.Crowd
 
         public void SetPosition(Vector3 pos) => transform.position = pos;
 
-        public void Kill()
+        public void Kill(bool isReset = false)
         {
             gameObject.SetActive(false);
+            int mobsToRemove = MobsCount;
+            for (int i = 0; i < mobsToRemove; i++)
+            {
+                KillMob();
+            }
+
+            if (isReset) return;
             LevelEvents.CrowdKilled?.Invoke(_crowdType);
+        }
+
+        public void Reset()
+        {
+            gameObject.SetActive(true);
         }
 
         private void OnApplicationQuit()

@@ -8,7 +8,7 @@ namespace CountMasters.Game.Crowd
     {
         public bool IsMoving => isMoving;
         
-        private readonly float _levelBoundaries = 3.5f;
+        private readonly float _levelBoundaries = 3f;
         private readonly float _crowdSpeed = 3f;
         private Transform _selfTransform;
 
