@@ -2,7 +2,7 @@
 {
     public enum CrowdType : byte
     {
-        Player = 0,
-        Enemy = 1
+        PlayerCrowd = 0,
+        EnemyCrowd = 1
     }
 }

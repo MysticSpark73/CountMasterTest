@@ -553,9 +553,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5829320454749029297}
   - component: {fileID: 5829320454749029298}
+  - component: {fileID: 1656285982745920694}
   - component: {fileID: 8250031255012602384}
   - component: {fileID: 4351776890167488692}
-  - component: {fileID: 1656285982745920694}
+  - component: {fileID: 4303491618971060166}
   m_Layer: 6
   m_Name: Mob
   m_TagString: Mob
@@ -599,6 +600,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1656285982745920694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5829320454749029299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5033a678567840888a027553ee09c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 5829320454749029298}
+  _renderer: {fileID: 7955108675871299144}
+  _rigidbody: {fileID: 4351776890167488692}
 --- !u!136 &8250031255012602384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -608,7 +624,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5829320454749029299}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.07540356
   m_Height: 0.39532027
   m_Direction: 1
@@ -629,21 +645,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1656285982745920694
-MonoBehaviour:
+--- !u!65 &4303491618971060166
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5829320454749029299}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5033a678567840888a027553ee09c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 5829320454749029298}
-  _renderer: {fileID: 7955108675871299144}
-  _rigidbody: {fileID: 4351776890167488692}
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.5, z: 0.3}
+  m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!1 &5832627476284807581
 GameObject:
   m_ObjectHideFlags: 0

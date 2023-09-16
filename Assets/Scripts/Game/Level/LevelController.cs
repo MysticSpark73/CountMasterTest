@@ -17,7 +17,7 @@ namespace CountMasters.Game.Level
         
         public Mob PoolMob()
         {
-            return _pooler.SpawnFromPool(ObjectPool.Mob, _crowd.GetMobsContainer().position, _crowd.GetMobsContainer()) as Mob;
+            return _pooler.SpawnFromPool(ObjectPool.Mob, _crowd.GetSpawnPoint(), _crowd.GetMobsContainer()) as Mob;
         }
 
         private async void Awake()
@@ -134,7 +134,12 @@ namespace CountMasters.Game.Level
 
         private void OnMobDied(Mob mob)
         {
-            //_crowd.RemoveMob(mob);
+            if (_crowd.IsContainsMob(mob))
+            {
+                _crowd.RemoveMob(mob);
+            }
+
+            _currentLevel.TryRemoveMob(mob);
             _pooler.ReturnToPool(mob.pooledKey, mob);
         }
     }

@@ -4,6 +4,8 @@ namespace CountMasters.Game.Crowd.Mob
 {
     public class MobRendererController
     {
+        public CrowdType CrowdType => _crowdType;
+        
         private Renderer _renderer;
         private CrowdType _crowdType;
 

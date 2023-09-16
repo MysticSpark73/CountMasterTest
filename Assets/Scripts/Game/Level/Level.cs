@@ -30,7 +30,7 @@ namespace CountMasters.Game.Level
                 Mob[] mobsToAdd = new Mob[crowd.InitialMobs];
                 for (int i = 0; i < crowd.InitialMobs; i++)
                 {
-                    var mob = _pooler.SpawnFromPool(ObjectPool.Mob, crowd.GetMobsContainer().position,
+                    var mob = _pooler.SpawnFromPool(ObjectPool.Mob, crowd.GetSpawnPoint(),
                         crowd.GetMobsContainer()) as Mob;
                     if (mob != null)
                     {
@@ -45,6 +45,20 @@ namespace CountMasters.Game.Level
         {
             _gates.ForEach(g => g.Reset());
             _pits.ForEach(p => p.Reset());
+        }
+
+        public bool TryRemoveMob(Mob mob)
+        {
+            foreach (var crowd in _crowds)
+            {
+                if (crowd.IsContainsMob(mob))
+                {
+                    crowd.RemoveMob(mob);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public Vector3 GetLevelSpawnPoint() => transform.position;

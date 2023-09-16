@@ -66,6 +66,8 @@ namespace CountMasters.Game.Crowd
             mob.Kill();
         }
 
+        public bool IsContainsMob(Mob.Mob mob) => _mobs.Contains(mob);
+
         public void CheckDistance(Vector3 target)
         {
             var mobsOutOfBounds = _mobs.FindAll(m => m.IsBeyondMaxDistance(target));
@@ -84,7 +86,7 @@ namespace CountMasters.Game.Crowd
             {
                 Vector3 newPos = new Vector3(
                     _distance * Mathf.Sqrt(i) * Mathf.Cos(i * _radius),
-                    _mobs[i].transform.position.y,
+                    _mobs[i].transform.localPosition.y,
                     _distance * Mathf.Sqrt(i) * Mathf.Sin(i * _radius));
                 _mobs[i].transform.DOLocalMove(newPos, .5f);
             }

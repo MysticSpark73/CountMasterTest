@@ -8,6 +8,7 @@ namespace CountMasters.Game.Crowd
     {
         [SerializeField] private CrowdType _crowdType;
         [SerializeField] private Transform _mobsContainer;
+        [SerializeField] private Transform _spawnTransform;
         [SerializeField] private int _initialMobs;
 
         public int MobsCount => _mobController.MobsCount;
@@ -16,7 +17,7 @@ namespace CountMasters.Game.Crowd
         private CrowdMoveController _crowdMoveController;
         private CrowdMobController _mobController;
         private CrowdUIController _uiController;
-
+        
         public void Init(params object[] args)
         {
             _crowdMoveController = new CrowdMoveController(transform);
@@ -27,16 +28,10 @@ namespace CountMasters.Game.Crowd
             _mobController.Init();
             _uiController.Init();
             SubscribeToPlayerEvents();
-            Debug.Log($"Crowd {name} Initialized!");
         }
 
         private void Update()
         {
-            /*if (_crowdMoveController == null)
-            {
-                _crowdMoveController = new CrowdMoveController(transform);
-                Debug.Log("No clue why is this happening");
-            }*/
             if (!_crowdMoveController.IsMoving) return;
             _crowdMoveController.Move();
             _mobController.CheckDistance(transform.position);
@@ -50,7 +45,11 @@ namespace CountMasters.Game.Crowd
 
         public void KillMob() => _mobController.KillMob();
 
+        public bool IsContainsMob(Mob.Mob mob) => _mobController.IsContainsMob(mob);
+
         public Transform GetMobsContainer() => _mobsContainer;
+
+        public Vector3 GetSpawnPoint() => _spawnTransform.position;
 
         public void SetPosition(Vector3 pos) => transform.position = pos;
 
@@ -61,14 +60,14 @@ namespace CountMasters.Game.Crowd
 
         private void SubscribeToPlayerEvents()
         {
-            if (_crowdType != CrowdType.Player) return;
+            if (_crowdType != CrowdType.PlayerCrowd) return;
             InputEvents.CursorMoved += OnCursorMoved;
             GameStateEvents.GameStateChanged += OnGameStateChanged;
         }
 
         private void UnsubscribeFromPlayerEvents()
         {
-            if (_crowdType != CrowdType.Player) return;
+            if (_crowdType != CrowdType.PlayerCrowd) return;
             InputEvents.CursorMoved -= OnCursorMoved;
             GameStateEvents.GameStateChanged -= OnGameStateChanged;
         }

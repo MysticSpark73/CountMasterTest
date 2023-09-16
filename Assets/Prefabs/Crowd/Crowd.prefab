@@ -79,6 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _crowdType: 0
   _mobsContainer: {fileID: 6230945764922760844}
+  _spawnTransform: {fileID: 6230945765763667341}
   _initialMobs: 0
 --- !u!1 &6230945765763667340
 GameObject:

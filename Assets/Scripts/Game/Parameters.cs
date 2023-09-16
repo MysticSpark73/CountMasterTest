@@ -36,8 +36,8 @@ namespace CountMasters.Game
 
         public static Color GetColorByCrowdType(CrowdType crowdType) => crowdType switch
         {
-            CrowdType.Player => color_player,
-            CrowdType.Enemy => color_enemy,
+            CrowdType.PlayerCrowd => color_player,
+            CrowdType.EnemyCrowd => color_enemy,
             _ => Color.clear
         };
 

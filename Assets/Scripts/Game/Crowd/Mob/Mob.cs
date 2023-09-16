@@ -1,4 +1,5 @@
-﻿using CountMasters.Game.Level;
+﻿using System;
+using CountMasters.Game.Level;
 using CountMasters.Pooling;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace CountMasters.Game.Crowd.Mob
 
         public void SetPosition(Vector3 pos, Transform container = null)
         {
-            transform.position = pos;
+            transform.localPosition = pos;
             if (container != null)
             {
                 transform.SetParent(container);
@@ -53,11 +54,12 @@ namespace CountMasters.Game.Crowd.Mob
         public void SetCrowdType(CrowdType crowdType)
         {
             _rendererController.SetCrowdType(crowdType);
+            tag = crowdType.ToString();
         }
 
         public void SetIsRun()
         {
-            _mobAnimator.SetAnimation(GameStateManager.GameState == GameState.Playing && CrowdType == CrowdType.Player
+            _mobAnimator.SetAnimation(GameStateManager.GameState == GameState.Playing && CrowdType == CrowdType.PlayerCrowd
                 ? MobAnimator.MobAnimation.Run
                 : MobAnimator.MobAnimation.Idle);
         }
@@ -76,15 +78,27 @@ namespace CountMasters.Game.Crowd.Mob
 
         public void Kill()
         {
+            if (gameObject.activeSelf == false) return;
             SetActive(false);
             LevelEvents.MobDied?.Invoke(this);
         }
 
         private void OnGameStateChanged(GameState state)
         {
-            _mobAnimator.SetAnimation(state == GameState.Playing && CrowdType == CrowdType.Player
+            _mobAnimator.SetAnimation(state == GameState.Playing && CrowdType == CrowdType.PlayerCrowd
                 ? MobAnimator.MobAnimation.Run
                 : MobAnimator.MobAnimation.Idle);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.CompareTag(_rendererController.CrowdType.ToString()))
+            {
+                Mob opponent = other.GetComponent<Mob>();
+                if (opponent == null) return;
+                opponent.Kill();
+                Kill();
+            }
         }
     }
 }

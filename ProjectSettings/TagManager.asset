@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Mob
+  - PlayerCrowd
+  - EnemyCrowd
   layers:
   - Default
   - TransparentFX
