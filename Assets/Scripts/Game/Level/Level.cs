@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography;
 using CountMasters.Core;
 using CountMasters.Game.Crowd.Mob;
 using CountMasters.Game.Level.Obstacles;
@@ -10,8 +9,6 @@ namespace CountMasters.Game.Level
 {
     public class Level : MonoBehaviour, IInitable, IResetable
     {
-        [SerializeField] private Transform _levelStartPoint;
-        [SerializeField] private Transform _levelEndPoint;
         [SerializeField] private Transform _crowdSpawnPoint;
         [SerializeField] private List<Gate> _gates;
         [SerializeField] private List<Pit> _pits;

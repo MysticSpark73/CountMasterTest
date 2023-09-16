@@ -14,6 +14,7 @@ namespace CountMasters.Game.Level
         [SerializeField] private ObjectPooler _pooler;
         [SerializeField] private Crowd.Crowd _crowd;
         [SerializeField] private Transform _levelContainer;
+        [SerializeField] private UnityEngine.Camera _camera;
 
         private LevelLoadManager _loadManager;
         private Level _currentLevel;
@@ -40,7 +41,9 @@ namespace CountMasters.Game.Level
 
             _currentLevel = await _loadManager.LoadCurrentLevel(_levelContainer);
             _currentLevel.Init(_pooler);
-            _currentLevel.SetLevelColor(Parameters.GetRandomLevelColor());
+            var levelColor = Parameters.GetRandomLevelColor();
+            _currentLevel.SetLevelColor(levelColor);
+            _camera.backgroundColor = levelColor;
             _crowd.SetPosition(_currentLevel.GetCrowdSpawnPoint());
             FillCrowd();
             
@@ -182,7 +185,12 @@ namespace CountMasters.Game.Level
             _currentLevel.Init(_pooler);
             _currentLevel.SetLevelColor(Parameters.GetRandomLevelColor());
             _crowd.SetPosition(_currentLevel.GetCrowdSpawnPoint());
+            _crowd.Kill(true);
             FillCrowd();
+            _crowd.Reset();
+            var levelColor = Parameters.GetRandomLevelColor();
+            _currentLevel.SetLevelColor(levelColor);
+            _camera.backgroundColor = levelColor;
             var dialog = _dialogsManager.GetDialog<LevelUI>();
             if (dialog == null) return;
             dialog.ShowTapToContinue();
@@ -195,6 +203,9 @@ namespace CountMasters.Game.Level
             _crowd.Kill(true);
             FillCrowd();
             _crowd.Reset();
+            var levelColor = Parameters.GetRandomLevelColor();
+            _currentLevel.SetLevelColor(levelColor);
+            _camera.backgroundColor = levelColor;
             var dialog = _dialogsManager.GetDialog<LevelUI>();
             if (dialog == null) return;
             dialog.ShowTapToContinue();

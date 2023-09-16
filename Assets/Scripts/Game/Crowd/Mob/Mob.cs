@@ -34,6 +34,7 @@ namespace CountMasters.Game.Crowd.Mob
         public void OnReturnToPool()
         {
             GameStateEvents.GameStateChanged -= OnGameStateChanged;
+            _rigidbody.isKinematic = true;
         }
 
         public void SetPosition(Vector3 pos, Transform container = null)

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - prefab: {fileID: 6356731101251973018, guid: 174ebccb1f23d9f4dabccfac4479f7eb, type: 3}
-    rootScript: {fileID: 2510995357945279579, guid: 174ebccb1f23d9f4dabccfac4479f7eb, type: 3}
+  - prefab: {fileID: 6356731101251973018, guid: 9e0df03adf74ad14184d725ad174b4e7, type: 3}
+  - prefab: {fileID: 6356731101251973018, guid: 32a16627bc69b0f4a81d309163a11da6, type: 3}

@@ -305,6 +305,7 @@ MonoBehaviour:
   _pooler: {fileID: 185203489}
   _crowd: {fileID: 2035094400}
   _levelContainer: {fileID: 1803519505}
+  _camera: {fileID: 963194227}
 --- !u!1 &304651717
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,7 +1523,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1586,7 +1587,7 @@ MonoBehaviour:
   _target: {fileID: 1081973595}
   _offsetPosition: {x: 0, y: 4, z: -4}
   _offsetRotation: {x: 45, y: 0, z: 0}
-  _smoothTime: 0.025
+  _smoothTime: 0.01
 --- !u!4 &1081973595 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6230945765763667341, guid: ca898196065d9484d83daea4aa623f09, type: 3}

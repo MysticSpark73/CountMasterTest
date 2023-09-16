@@ -73,6 +73,16 @@ namespace CountMasters.Game.Crowd
             mob.Kill();
         }
 
+        public void KillAllMobs()
+        {
+            Mob.Mob[] temp = _mobs.ToArray();
+            _mobs.Clear();
+            for (int i = 0; i < temp.Length; i++)
+            {
+                temp[i].Kill();
+            }
+        }
+
         public bool IsContainsMob(Mob.Mob mob) => _mobs.Contains(mob);
 
         public void CheckDistance(Vector3 target)

@@ -8,8 +8,8 @@ namespace CountMasters.Game.Crowd
     {
         public bool IsMoving => isMoving;
         
-        private readonly float _levelBoundaries = 3f;
-        private readonly float _crowdSpeed = 3f;
+        private readonly float _levelBoundaries = 2.5f;
+        private readonly float _crowdSpeed = 5f;
         private Transform _selfTransform;
 
         private bool isMoving;
@@ -29,7 +29,7 @@ namespace CountMasters.Game.Crowd
         {
             if(!isTouchDown || !isMoving) return;
             _selfTransform.position = new Vector3(
-                Mathf.Clamp(InputEvents.GetCursorPosClamped(cursorPos).x * 6 - _levelBoundaries, -_levelBoundaries, _levelBoundaries),
+                Mathf.Clamp(InputEvents.GetCursorPosClamped(cursorPos).x * 5 - _levelBoundaries, -_levelBoundaries, _levelBoundaries),
                 _selfTransform.position.y,
                 _selfTransform.position.z);
         }
