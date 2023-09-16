@@ -603,5 +603,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crowd
       objectReference: {fileID: 0}
+    - target: {fileID: 6230945765763667338, guid: ca898196065d9484d83daea4aa623f09, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230945765763667338, guid: ca898196065d9484d83daea4aa623f09, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230945765763667338, guid: ca898196065d9484d83daea4aa623f09, type: 3}
+      propertyPath: m_Size.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230945765763667338, guid: ca898196065d9484d83daea4aa623f09, type: 3}
+      propertyPath: m_Center.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230945765763667340, guid: ca898196065d9484d83daea4aa623f09, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca898196065d9484d83daea4aa623f09, type: 3}
