@@ -1,4 +1,5 @@
 ﻿using System;
+using CountMasters.Game.Crowd;
 using CountMasters.Game.Crowd.Mob;
 using CountMasters.Game.Level.Obstacles;
 using CountMasters.Pooling;
@@ -30,6 +31,8 @@ namespace CountMasters.Game.Level
             LevelEvents.GateTrigger += OnGateTriggered;
             LevelEvents.PitTrigger += OnPitTriggered;
             LevelEvents.MobDied += OnMobDied;
+            LevelEvents.LevelFinish += OnLevelFinish;
+            LevelEvents.CrowdKilled += OnCrowdKilled;
 
             _currentLevel = await _loadManager.LoadCurrentLevel(_levelContainer);
             _currentLevel.Init(_pooler);
@@ -54,6 +57,8 @@ namespace CountMasters.Game.Level
             LevelEvents.GateTrigger -= OnGateTriggered;
             LevelEvents.PitTrigger -= OnPitTriggered;
             LevelEvents.MobDied -= OnMobDied;
+            LevelEvents.LevelFinish -= OnLevelFinish;
+            LevelEvents.CrowdKilled -= OnCrowdKilled;
         }
 
         #region Operations
@@ -141,6 +146,19 @@ namespace CountMasters.Game.Level
 
             _currentLevel.TryRemoveMob(mob);
             _pooler.ReturnToPool(mob.pooledKey, mob);
+        }
+
+        private void OnLevelFinish()
+        {
+            GameStateManager.SetGameState(GameState.Win);
+        }
+
+        private void OnCrowdKilled(CrowdType crowdType)
+        {
+            if (crowdType == CrowdType.PlayerCrowd)
+            {
+                GameStateManager.SetGameState(GameState.Lose);
+            }
         }
     }
 }

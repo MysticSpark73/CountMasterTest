@@ -1,4 +1,5 @@
 ﻿using CountMasters.Core;
+using CountMasters.Game.Level;
 using CountMasters.Input;
 using TMPro;
 using UnityEngine;
@@ -67,6 +68,7 @@ namespace CountMasters.Game.Crowd
         public void Kill()
         {
             gameObject.SetActive(false);
+            LevelEvents.CrowdKilled?.Invoke(_crowdType);
         }
 
         private void OnApplicationQuit()

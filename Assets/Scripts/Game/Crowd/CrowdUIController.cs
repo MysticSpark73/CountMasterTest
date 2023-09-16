@@ -16,10 +16,7 @@ namespace CountMasters.Game.Crowd
             _countLabel = countLabel;
         }
 
-        public void Init(params object[] args)
-        {
-            
-        }
+        public void Init(params object[] args) { }
 
         public void UpdateCountText(int count)
         {

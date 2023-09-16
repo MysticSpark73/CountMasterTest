@@ -7,11 +7,9 @@ namespace CountMasters.Game.Crowd
     public class CrowdMoveController : IInitable
     {
         public bool IsMoving => isMoving;
-
-        //TODO: Add CameraFollow script
-        //TODO: probably move to LevelController or elsewhere
+        
         private readonly float _levelBoundaries = 3.5f;
-        private readonly float _crowdSpeed = 2.5f;
+        private readonly float _crowdSpeed = 3f;
         private Transform _selfTransform;
 
         private bool isMoving;
@@ -29,7 +27,7 @@ namespace CountMasters.Game.Crowd
 
         public void CursorMoved(bool isTouchDown, Vector2 cursorPos)
         {
-            if(!isTouchDown) return;
+            if(!isTouchDown || !isMoving) return;
             _selfTransform.position = new Vector3(
                 Mathf.Clamp(InputEvents.GetCursorPosClamped(cursorPos).x * 6 - _levelBoundaries, -_levelBoundaries, _levelBoundaries),
                 _selfTransform.position.y,
