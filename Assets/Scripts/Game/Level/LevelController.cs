@@ -20,8 +20,9 @@ namespace CountMasters.Game.Level
             return _pooler.SpawnFromPool(ObjectPool.Mob, _crowd.GetMobsContainer().position, _crowd.GetMobsContainer()) as Mob;
         }
 
-        private void Awake()
+        private async void Awake()
         {
+            GameStateManager.SetGameState(GameState.Loading);
             _loadManager = new LevelLoadManager();
             _pooler.Init();
             _crowd.Init();
@@ -30,13 +31,13 @@ namespace CountMasters.Game.Level
             LevelEvents.PitTrigger += OnPitTriggered;
             LevelEvents.MobDied += OnMobDied;
 
-            _currentLevel = _loadManager.LoadCurrentLevel(_levelContainer);
-            _currentLevel.Init();
+            _currentLevel = await _loadManager.LoadCurrentLevel(_levelContainer);
+            _currentLevel.Init(_pooler);
             _currentLevel.SetLevelColor(Parameters.GetRandomLevelColor());
             _crowd.SetPosition(_currentLevel.GetCrowdSpawnPoint());
             
-            Mob[] mobs = new Mob[10];
-            for (int i = 0; i < 10; i++)
+            Mob[] mobs = new Mob[_crowd.InitialMobs];
+            for (int i = 0; i < _crowd.InitialMobs; i++)
             {
                 var mob = PoolMob();
                 if (mob != null)

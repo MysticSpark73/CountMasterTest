@@ -9,7 +9,7 @@ namespace CountMasters.Game.Crowd
             //TODO: add crowd label
         }
 
-        public void Init()
+        public void Init(params object[] args)
         {
             
         }

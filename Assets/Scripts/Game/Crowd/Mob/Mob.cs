@@ -19,7 +19,7 @@ namespace CountMasters.Game.Crowd.Mob
         private readonly float _fallTime = 1f;
         private readonly float _maxDistance = 5f;
 
-        public void Init()
+        public void Init(params object[] args)
         {
             _mobAnimator = new MobAnimator(_animator);
             _rendererController = new MobRendererController(_renderer);

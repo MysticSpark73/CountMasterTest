@@ -21,7 +21,7 @@ namespace CountMasters.Game.Crowd
             _selfTransform = transform;
         }
 
-        public void Init() { }
+        public void Init(params object[] args) { }
 
         public void SetMoving(bool value) => isMoving = value;
 

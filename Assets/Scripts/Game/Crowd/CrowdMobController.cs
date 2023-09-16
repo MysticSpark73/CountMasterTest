@@ -23,7 +23,7 @@ namespace CountMasters.Game.Crowd
             _crowd = crowd;
         }
         
-        public void Init()
+        public void Init(params object[] args)
         {
             _mobs = new List<Mob.Mob>();
         }
@@ -46,6 +46,7 @@ namespace CountMasters.Game.Crowd
             {
                 mobs[i].SetCrowdType(_crowdType);
                 mobs[i].SetActive(true);
+                mobs[i].SetIsRun();
                 _mobs.Add(mobs[i]);
             }
             FormatMobs();

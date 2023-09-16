@@ -1,4 +1,5 @@
-﻿using CountMasters.Core;
+﻿using System.Threading.Tasks;
+using CountMasters.Core;
 using CountMasters.Data.Levels;
 using UnityEngine;
 
@@ -9,37 +10,41 @@ namespace CountMasters.Game.Level
         private LevelsData _levelsData;
         private Level _currentLevel;
         private int _currentLevelIndex = 0;
-        
-        public Level LoadLevel(int index, Transform container)
+
+        public async Task<Level> LoadLevel(int index, Transform container)
         {
-            if(_levelsData == null) CacheLevelsData();
+            if(_levelsData == null) await CacheLevelsData();
             var data = _levelsData.levels[index];
-            Object.Instantiate(data.prefab, data.rootScript.GetLevelSpawnPoint(),
-                Quaternion.identity, container);
+            var obj = Object.Instantiate(data.prefab, container.position, Quaternion.identity, container);
+            var level = obj.GetComponent<Level>();
+            if (level == null) return null;
+            obj.transform.position = level.GetLevelSpawnPoint();
             _currentLevelIndex = index;
-            return data.rootScript;
+            return level;
         }
 
-        public Level LoadNextLevel(Transform container)
+        public async Task<Level> LoadNextLevel(Transform container)
         {
             if (_levelsData == null) CacheLevelsData();
             _currentLevelIndex = _currentLevelIndex + 1 > _levelsData.levels.Count - 1 ? 0 : _currentLevelIndex + 1;
-            return LoadLevel(_currentLevelIndex, container);
+            return await LoadLevel(_currentLevelIndex, container);
         }
 
-        public Level LoadCurrentLevel(Transform container)
+        public async Task<Level> LoadCurrentLevel(Transform container)
         {
-            return LoadLevel(_currentLevelIndex, container);
+            return await LoadLevel(_currentLevelIndex, container);
         }
 
-        public void Init()
+        public async void Init(params object[] args)
         {
-            CacheLevelsData();
+            await CacheLevelsData();
         }
 
-        private void CacheLevelsData()
+        private async Task CacheLevelsData()
         {
-            _levelsData = Resources.Load<LevelsData>(Parameters.path_resources_levels_data);
+            var request = Resources.LoadAsync<LevelsData>(Parameters.path_resources_levels_data);
+            await request;
+            _levelsData = request.asset as LevelsData;
         }
     }
 }

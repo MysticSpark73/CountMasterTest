@@ -17,7 +17,7 @@ namespace CountMasters.Game.Level.Obstacles
         private readonly string addition_label = "+";
         private readonly string subtraction_label = "-";
 
-        public override void Init()
+        public override void Init(params object[] args)
         {
             SetText();
         }

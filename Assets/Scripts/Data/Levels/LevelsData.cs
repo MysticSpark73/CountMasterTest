@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CountMasters.Game.Level;
 using UnityEngine;
 
 namespace CountMasters.Data.Levels
@@ -14,7 +13,6 @@ namespace CountMasters.Data.Levels
         public struct LevelData
         {
             public GameObject prefab;
-            public Level rootScript;
         }
     }
 }

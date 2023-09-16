@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using CountMasters.Core;
+using CountMasters.Game.Crowd.Mob;
 using CountMasters.Game.Level.Obstacles;
+using CountMasters.Pooling;
 using UnityEngine;
 
 namespace CountMasters.Game.Level
@@ -12,11 +14,31 @@ namespace CountMasters.Game.Level
         [SerializeField] private Transform _crowdSpawnPoint;
         [SerializeField] private List<Gate> _gates;
         [SerializeField] private List<Pit> _pits;
+        [SerializeField] private List<Crowd.Crowd> _crowds;
 
-        public void Init()
+        private ObjectPooler _pooler;
+
+        public void Init(params object[] args)
         {
+            if (args != null) _pooler = args[0] as ObjectPooler;
             _gates.ForEach(g => g.Init());
             _pits.ForEach(p => p.Init());
+            _crowds.ForEach(c => c.Init());
+            if (_pooler == null) return;
+            foreach (var crowd in _crowds)
+            {
+                Mob[] mobsToAdd = new Mob[crowd.InitialMobs];
+                for (int i = 0; i < crowd.InitialMobs; i++)
+                {
+                    var mob = _pooler.SpawnFromPool(ObjectPool.Mob, crowd.GetMobsContainer().position,
+                        crowd.GetMobsContainer()) as Mob;
+                    if (mob != null)
+                    {
+                        mobsToAdd[i] = mob;
+                    }
+                }
+                crowd.AddMob(mobsToAdd);
+            }
         }
         
         public void Reset()

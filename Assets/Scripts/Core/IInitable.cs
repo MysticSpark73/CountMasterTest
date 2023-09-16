@@ -2,6 +2,6 @@
 {
     public interface IInitable
     {
-        void Init();
+        void Init(params object[] args);
     }
 }

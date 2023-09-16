@@ -7,7 +7,7 @@ namespace CountMasters.Game.Level.Obstacles
     public class Pit : Obstacle
     {
         private Collider _collider;
-        public override void Init()
+        public override void Init(params object[] args)
         {
             _collider = GetComponent<Collider>();
         }

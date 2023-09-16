@@ -11,7 +11,7 @@ namespace CountMasters.Pooling
         
         private Dictionary<ObjectPool, Queue<IPoollable>> _objectPools;
 
-        public void Init()
+        public void Init(params object[] args)
         {
             GeneratePools();
         }
@@ -21,6 +21,12 @@ namespace CountMasters.Pooling
             if (!_objectPools.ContainsKey(key))
             {
                 Debug.LogError($"Dictionary does not contain key '{key}!'");
+                return null;
+            }
+
+            if (_objectPools[key].Count == 0)
+            {
+                Debug.LogError($"[ObjectPooler][SpawnFromPool] The Queue of {key} is empty!");
                 return null;
             }
             var obj = _objectPools[key].Dequeue();
@@ -62,7 +68,7 @@ namespace CountMasters.Pooling
                         break;
                     }
                     poolable.pooledKey = obj.key;
-                    poolable.Init();
+                    poolable.Init(null);
                     _objectPools[obj.key].Enqueue(poolable);
                 }
             }
