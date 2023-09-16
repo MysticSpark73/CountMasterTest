@@ -1,6 +1,8 @@
 ﻿using CountMasters.Core;
 using CountMasters.Input;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CountMasters.Game.Crowd
 {
@@ -9,6 +11,9 @@ namespace CountMasters.Game.Crowd
         [SerializeField] private CrowdType _crowdType;
         [SerializeField] private Transform _mobsContainer;
         [SerializeField] private Transform _spawnTransform;
+        [SerializeField] private Image _cloudImage;
+        [SerializeField] private Image _arrowImage;
+        [SerializeField] private TextMeshProUGUI _countLabel;
         [SerializeField] private int _initialMobs;
 
         public int MobsCount => _mobController.MobsCount;
@@ -22,8 +27,9 @@ namespace CountMasters.Game.Crowd
         {
             _crowdMoveController = new CrowdMoveController(transform);
             _mobController = new CrowdMobController(this);
-            _uiController = new CrowdUIController();
+            _uiController = new CrowdUIController(_cloudImage, _arrowImage, _countLabel);
             _mobController.SetType(_crowdType);
+            _uiController.SetType(_crowdType);
             _crowdMoveController.Init();
             _mobController.Init();
             _uiController.Init();
@@ -45,6 +51,11 @@ namespace CountMasters.Game.Crowd
 
         public void KillMob() => _mobController.KillMob();
 
+        public void OnMobsCountChanged()
+        {
+            _uiController.UpdateCountText(MobsCount);
+        }
+
         public bool IsContainsMob(Mob.Mob mob) => _mobController.IsContainsMob(mob);
 
         public Transform GetMobsContainer() => _mobsContainer;
@@ -52,6 +63,11 @@ namespace CountMasters.Game.Crowd
         public Vector3 GetSpawnPoint() => _spawnTransform.position;
 
         public void SetPosition(Vector3 pos) => transform.position = pos;
+
+        public void Kill()
+        {
+            gameObject.SetActive(false);
+        }
 
         private void OnApplicationQuit()
         {

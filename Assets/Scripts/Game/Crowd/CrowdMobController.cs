@@ -37,6 +37,7 @@ namespace CountMasters.Game.Crowd
             mob.SetActive(true);
             _mobs.Add(mob);
             FormatMobs();
+            _crowd.OnMobsCountChanged();
         }
 
         public void AddMob(Mob.Mob[] mobs)
@@ -48,6 +49,7 @@ namespace CountMasters.Game.Crowd
                 mobs[i].SetActive(true);
                 mobs[i].SetIsRun();
                 _mobs.Add(mobs[i]);
+                _crowd.OnMobsCountChanged();
             }
             FormatMobs();
         }
@@ -56,6 +58,11 @@ namespace CountMasters.Game.Crowd
         {
             if (_mobs == null) return;
             _mobs.Remove(mob);
+            _crowd.OnMobsCountChanged();
+            if (_mobs.Count <= 0)
+            {
+                _crowd.Kill();
+            }
         }
         
         public void KillMob()
