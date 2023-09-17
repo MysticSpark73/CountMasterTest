@@ -10,6 +10,7 @@ namespace CountMasters.Game
         #region Pathes
 
         public static readonly string path_resources_levels_data = "Data/LevelsData";
+        public static readonly string path_persistent_saves_file = "Save.save";
 
         #endregion
         #region Colors
@@ -26,7 +27,6 @@ namespace CountMasters.Game
         {
             color_level_pink,
             color_level_violet,
-            //color_level_blue,
             color_level_yellow
         };
 
@@ -46,7 +46,7 @@ namespace CountMasters.Game
         #endregion
         #region Coins
 
-        public static int COINS => coins;
+        public static int Coins => coins;
 
         private static int coins = 0;
 

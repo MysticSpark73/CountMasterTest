@@ -1,4 +1,5 @@
 ﻿using System;
+using CountMasters.Data.Saving;
 using CountMasters.Game.Crowd;
 using CountMasters.Game.Crowd.Mob;
 using CountMasters.Game.Level.Obstacles;
@@ -17,6 +18,7 @@ namespace CountMasters.Game.Level
         [SerializeField] private UnityEngine.Camera _camera;
 
         private LevelLoadManager _loadManager;
+        private SavesManager _savesManager;
         private Level _currentLevel;
         
         public Mob PoolMob()
@@ -28,9 +30,13 @@ namespace CountMasters.Game.Level
         {
             GameStateManager.SetGameState(GameState.Loading);
             _loadManager = new LevelLoadManager();
+            _savesManager = new SavesManager();
+            
             _pooler.Init();
             _crowd.Init();
             _loadManager.Init();
+            _savesManager.ReadCoins();
+            
             LevelEvents.GateTrigger += OnGateTriggered;
             LevelEvents.PitTrigger += OnPitTriggered;
             LevelEvents.MobDied += OnMobDied;
@@ -73,6 +79,7 @@ namespace CountMasters.Game.Level
             LevelEvents.CrowdKilled -= OnCrowdKilled;
             LevelEvents.NextLevelRequested -= OnNextLevelRequested;
             LevelEvents.RestartRequested -= OnRestartRequested;
+            _savesManager.KillSave();
         }
 
         #region Operations
@@ -166,6 +173,7 @@ namespace CountMasters.Game.Level
         {
             GameStateManager.SetGameState(GameState.Win);
             Parameters.AddCoins(100);
+            _savesManager.SaveCoins();
             _dialogsManager.ShowDialog<WinDialog>();
         }
 

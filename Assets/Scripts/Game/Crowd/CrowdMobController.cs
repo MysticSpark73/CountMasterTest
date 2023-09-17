@@ -97,7 +97,7 @@ namespace CountMasters.Game.Crowd
 
         public void OnMobFall(Mob.Mob mob) => mob.Fall();
 
-        private void FormatMobs()
+        public void FormatMobs()
         {
             for (int i = 0; i < _mobs.Count; i++)
             {

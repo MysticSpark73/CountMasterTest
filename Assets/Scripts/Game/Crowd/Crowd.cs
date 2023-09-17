@@ -120,6 +120,7 @@ namespace CountMasters.Game.Crowd
                     break;
                 default:
                     _crowdMoveController.SetMoving(false);
+                    _mobController.FormatMobs();
                     break;
             }
         }

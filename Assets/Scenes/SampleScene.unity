@@ -1585,8 +1585,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 1081973595}
-  _offsetPosition: {x: 0, y: 4, z: -4}
-  _offsetRotation: {x: 45, y: 0, z: 0}
+  _offsetPosition: {x: 0, y: 5, z: -5}
+  _offsetRotation: {x: 35, y: 0, z: 0}
   _smoothTime: 0.01
 --- !u!4 &1081973595 stripped
 Transform:

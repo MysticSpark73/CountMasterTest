@@ -18,13 +18,12 @@ namespace CountMasters.UI.Dialogs
         public void ShowTapToContinue()
         {
             _tapToStartTransform.gameObject.SetActive(true);
-            Debug.Log("CALLED!");
         }
 
         protected override void OnShow()
         {
             Parameters.CoinsAmountChanged += OnCoinsAmountChanged;
-            _coinsLabel.text = Parameters.COINS.ToString();
+            _coinsLabel.text = Parameters.Coins.ToString();
             _tapToStartLabel.DOFade(0, .5f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
             _tapDetector.onClick.RemoveAllListeners();
             _tapDetector.onClick.AddListener(OnTap);
